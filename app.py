@@ -18,48 +18,36 @@ def create_app(config_name='development'):
 def _register_routes(app):
     """Registrar todas las rutas de la aplicación"""
     
-    # Página de inicio
     @app.route('/')
     def index():
-        """Página de inicio con botón empezar"""
         return render_template('inicio.html')
     
-    # Página informativa de paneles
     @app.route('/paneles')
     def paneles():
-        """Página con paneles de Power BI"""
         return render_template('paneles.html')
     
-    # Panel 1 - Ventas
     @app.route('/panel/Resumen')
     def panel_resumen():
-        """Panel de Ventas"""
         return render_template('panel_Resumen.html')
     
-    # Panel 2 - Inventario
     @app.route('/panel/Analisis')
     def panel_analisis():
-        """Panel de Inventario"""
         return render_template('panel_Analisis.html')
     
-    # Panel 3 - Operaciones
     @app.route('/panel/Temporal')
     def panel_temporal():
-        """Panel de Operaciones"""
         return render_template('panel_Temporal.html')
     
-    # Panel 4 - Reportes
     @app.route('/panel/reportes')
     def panel_reportes():
-        """Panel de Reportes"""
         return render_template('panel_reportes.html')
     
-    # Acerca de
     @app.route('/acerca-de')
     def acerca_de():
-        """Página de información"""
         return render_template('acerca_de.html')
 
+
+app = create_app(os.getenv('FLASK_ENV', 'development'))
+
 if __name__ == '__main__':
-    app = create_app(os.getenv('FLASK_ENV', 'development'))
     app.run(debug=True, host='0.0.0.0', port=5000)
