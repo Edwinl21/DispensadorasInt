@@ -1,0 +1,182 @@
+{% extends "layout.html" %}
+
+{% block title %}Mantenimiento - Dispensadoras Inteligentes{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="mb-4"><i class="fas fa-wrench"></i> Gestión de Mantenimiento</h1>
+
+    <!-- Botón para nuevo mantenimiento -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <button class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#modalMantenimiento">
+                <i class="fas fa-plus"></i> Registrar Nuevo Mantenimiento
+            </button>
+        </div>
+    </div>
+
+    <!-- Tabla de mantenimientos -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-list"></i> Historial de Mantenimiento
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Dispensadora</th>
+                                    <th>Tipo</th>
+                                    <th>Responsable</th>
+                                    <th>Fecha Inicio</th>
+                                    <th>Estado</th>
+                                    <th>Costo</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaMantenimiento">
+                                <tr>
+                                    <td colspan="7" class="text-center text-muted">Cargando datos...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para nuevo mantenimiento -->
+    <div class="modal fade" id="modalMantenimiento" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Nuevo Mantenimiento</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formMantenimiento">
+                        <div class="mb-3">
+                            <label for="dispensadoraId" class="form-label">Dispensadora</label>
+                            <select class="form-select" id="dispensadoraId" required>
+                                <option value="">Selecciona una dispensadora</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="tipoMantenimiento" class="form-label">Tipo de Mantenimiento</label>
+                            <select class="form-select" id="tipoMantenimiento" required>
+                                <option value="">Selecciona tipo</option>
+                                <option value="limpieza">Limpieza</option>
+                                <option value="reparacion">Reparación</option>
+                                <option value="actualizacion">Actualización</option>
+                                <option value="revision">Revisión General</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="responsable" class="form-label">Responsable</label>
+                            <input type="text" class="form-control" id="responsable" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="descripcion" class="form-label">Descripción</label>
+                            <textarea class="form-control" id="descripcion" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="costo" class="form-label">Costo ($)</label>
+                            <input type="number" class="form-control" id="costo" step="0.01">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="guardarMantenimiento()">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    cargarDispensadorasSelect();
+    cargarMantenimientos();
+});
+
+function cargarDispensadorasSelect() {
+    fetch('/api/dispensadoras')
+        .then(response => response.json())
+        .then(data => {
+            const select = document.getElementById('dispensadoraId');
+            data.forEach(d => {
+                const option = document.createElement('option');
+                option.value = d.id;
+                option.textContent = d.nombre;
+                select.appendChild(option);
+            });
+        });
+}
+
+function cargarMantenimientos() {
+    fetch('/api/dispensadoras')
+        .then(response => response.json())
+        .then(data => {
+            mostrarMantenimientos(data);
+        });
+}
+
+function mostrarMantenimientos(dispensadoras) {
+    const tabla = document.getElementById('tablaMantenimiento');
+    tabla.innerHTML = '';
+
+    // Datos simulados de mantenimiento
+    const mantenimientos = [
+        { id: 1, dispensadora_id: 1, tipo: 'Limpieza', responsable: 'Juan', fecha: '2025-11-10', estado: 'Completado', costo: 50 },
+        { id: 2, dispensadora_id: 2, tipo: 'Reparación', responsable: 'María', fecha: '2025-11-12', estado: 'En progreso', costo: 150 },
+        { id: 3, dispensadora_id: 3, tipo: 'Limpieza', responsable: 'Carlos', fecha: '2025-11-08', estado: 'Completado', costo: 50 }
+    ];
+
+    if (mantenimientos.length === 0) {
+        tabla.innerHTML = '<tr><td colspan="7" class="text-center text-muted">No hay registros de mantenimiento</td></tr>';
+        return;
+    }
+
+    mantenimientos.forEach(m => {
+        const dispensadora = dispensadoras.find(d => d.id === m.dispensadora_id);
+        const estadoBadge = m.estado === 'Completado' ? 
+            '<span class="badge bg-success">Completado</span>' : 
+            '<span class="badge bg-warning">En progreso</span>';
+        
+        const fila = document.createElement('tr');
+        fila.innerHTML = `
+            <td>${dispensadora ? dispensadora.nombre : 'N/A'}</td>
+            <td>${m.tipo}</td>
+            <td>${m.responsable}</td>
+            <td>${m.fecha}</td>
+            <td>${estadoBadge}</td>
+            <td>$${m.costo.toFixed(2)}</td>
+            <td>
+                <button class="btn btn-sm btn-info" onclick="verDetalles(${m.id})">
+                    <i class="fas fa-eye"></i>
+                </button>
+            </td>
+        `;
+        tabla.appendChild(fila);
+    });
+}
+
+function guardarMantenimiento() {
+    // Aquí implementar lógica de guardado
+    alert('Mantenimiento registrado exitosamente');
+    const modal = bootstrap.Modal.getInstance(document.getElementById('modalMantenimiento'));
+    modal.hide();
+    cargarMantenimientos();
+}
+
+function verDetalles(id) {
+    alert('Ver detalles del mantenimiento: ' + id);
+}
+</script>
+{% endblock %}

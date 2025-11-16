@@ -1,0 +1,30 @@
+{% extends "panel_base.html" %}
+
+{% block title %}Panel de Ventas{% endblock %}
+
+{% block panel_title %}
+<i class="fas fa-box"></i> Panel de Resumen
+{% endblock %}
+
+{% block content %}
+
+<div class="info-box">
+    <div class="info-box-title"><i class="fas fa-lightbulb"></i> Información</div>
+    <div class="info-box-text">
+        Este panlmuestra el resumen general de la principales metricas del DataWarehouse.
+    </div>
+</div>
+
+<div class="powerbi-container">
+    <!-- Embebido Power BI: Panel 1 (Análisis) -->
+    <div class="powerbi-embed">
+        <iframe title="Ventas - Power BI"
+                width="100%" height="600"
+                src="https://app.powerbi.com/view?r=eyJrIjoiNTJhZGRiZjYtZjNjOS00ZTYzLWFmYzYtMzhkMWM3OTgxN2Q2IiwidCI6IjA3ZGE2N2EwLTFmNDMtNGU4Yy05NzdmLTVmODhiNjQ3MGVlNiIsImMiOjR9&pageName=5e93da1d96caa2c0710d"
+                frameborder="0" allowFullScreen="true">
+        </iframe>
+    </div>
+</div>
+
+
+{% endblock %}

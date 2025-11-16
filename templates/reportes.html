@@ -1,0 +1,248 @@
+{% extends "layout.html" %}
+
+{% block title %}Reportes - Dispensadoras Inteligentes{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="mb-4"><i class="fas fa-chart-bar"></i> Reportes</h1>
+
+    <!-- Opciones de reporte -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-cogs"></i> Generar Reporte
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label class="form-label">Tipo de Reporte</label>
+                            <select class="form-select" id="tipoReporte">
+                                <option value="consumo">Consumo de Agua</option>
+                                <option value="alertas">Alertas y Problemas</option>
+                                <option value="mantenimiento">Historial de Mantenimiento</option>
+                                <option value="rendimiento">Rendimiento General</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Período</label>
+                            <select class="form-select" id="periodo">
+                                <option value="7">Últimos 7 días</option>
+                                <option value="30">Últimos 30 días</option>
+                                <option value="90">Últimos 90 días</option>
+                                <option value="365">Último año</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 d-flex align-items-end">
+                            <button class="btn btn-primary w-100" onclick="generarReporte()">
+                                <i class="fas fa-download"></i> Generar Reporte
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenido de reportes -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header" id="reporteHeader">
+                    <i class="fas fa-spinner fa-spin"></i> Selecciona un reporte
+                </div>
+                <div class="card-body" id="reporteContenido">
+                    <p class="text-muted text-center">Selecciona un tipo de reporte para visualizar datos</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabla de datos -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-table"></i> Datos Detallados
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped" id="tablaReporte">
+                            <thead>
+                                <tr>
+                                    <th>Dispensadora</th>
+                                    <th>Ubicación</th>
+                                    <th>Tipo</th>
+                                    <th>Nivel Promedio</th>
+                                    <th>Alertas</th>
+                                    <th>Última Actualización</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="6" class="text-center text-muted">Cargando datos...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function generarReporte() {
+    const tipo = document.getElementById('tipoReporte').value;
+    const periodo = document.getElementById('periodo').value;
+
+    fetch(`/api/dispensadoras`)
+        .then(response => response.json())
+        .then(data => {
+            mostrarReporte(tipo, periodo, data);
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+function mostrarReporte(tipo, periodo, dispensadoras) {
+    const header = document.getElementById('reporteHeader');
+    const contenido = document.getElementById('reporteContenido');
+
+    let titulo = '';
+    let html = '';
+
+    switch(tipo) {
+        case 'consumo':
+            titulo = 'Reporte de Consumo de Agua';
+            html = generarReporteConsumo(dispensadoras);
+            break;
+        case 'alertas':
+            titulo = 'Reporte de Alertas y Problemas';
+            html = generarReporteAlertas(dispensadoras);
+            break;
+        case 'mantenimiento':
+            titulo = 'Reporte de Mantenimiento';
+            html = generarReporteMantenimiento(dispensadoras);
+            break;
+        case 'rendimiento':
+            titulo = 'Reporte de Rendimiento General';
+            html = generarReporteRendimiento(dispensadoras);
+            break;
+    }
+
+    header.innerHTML = `<i class="fas fa-file-pdf"></i> ${titulo}`;
+    contenido.innerHTML = html;
+}
+
+function generarReporteConsumo(dispensadoras) {
+    let totalConsumo = 0;
+    let html = '<div class="row">';
+
+    dispensadoras.forEach(d => {
+        const consumo = Math.random() * 100; // Simulado
+        totalConsumo += consumo;
+        html += `
+            <div class="col-md-4 mb-3">
+                <div class="stat-card">
+                    <div class="stat-label">${d.nombre}</div>
+                    <div class="stat-number">${consumo.toFixed(2)}L</div>
+                    <small class="text-muted">Ubicación: ${d.ubicacion}</small>
+                </div>
+            </div>
+        `;
+    });
+
+    html += '</div>';
+    html += `<div class="alert alert-info"><strong>Consumo Total: </strong>${totalConsumo.toFixed(2)} Litros</div>`;
+    
+    return html;
+}
+
+function generarReporteAlertas(dispensadoras) {
+    return `
+        <div class="alert alert-warning">
+            <strong>⚠️ Resumen de Alertas</strong>
+            <p class="mb-0">Se han registrado un total de 7 alertas en el período seleccionado.</p>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <div class="stat-card">
+                    <div class="stat-icon">🔴</div>
+                    <div class="stat-label">Alertas Críticas</div>
+                    <div class="stat-number">2</div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="stat-card">
+                    <div class="stat-icon">🟡</div>
+                    <div class="stat-label">Alertas Moderadas</div>
+                    <div class="stat-number">5</div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function generarReporteMantenimiento(dispensadoras) {
+    return `
+        <div class="alert alert-info">
+            <strong>🔧 Historial de Mantenimiento</strong>
+            <p class="mb-0">Últimos mantenimientos realizados en el sistema.</p>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <div class="stat-card">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-label">Mantenimientos Realizados</div>
+                    <div class="stat-number">12</div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="stat-card">
+                    <div class="stat-icon">📅</div>
+                    <div class="stat-label">Próximo Mantenimiento</div>
+                    <div class="stat-number">3 días</div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function generarReporteRendimiento(dispensadoras) {
+    const activas = dispensadoras.filter(d => d.estado === 'activa').length;
+    const porcentajeOperacional = (activas / dispensadoras.length * 100).toFixed(1);
+
+    return `
+        <div class="alert alert-success">
+            <strong>📊 Rendimiento del Sistema</strong>
+            <p class="mb-0">El sistema opera con eficiencia general.</p>
+        </div>
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <div class="stat-card">
+                    <div class="stat-icon">📦</div>
+                    <div class="stat-label">Total de Dispensadoras</div>
+                    <div class="stat-number">${dispensadoras.length}</div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="stat-card">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-label">Operacional</div>
+                    <div class="stat-number">${porcentajeOperacional}%</div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="stat-card">
+                    <div class="stat-icon">⏱️</div>
+                    <div class="stat-label">Uptime</div>
+                    <div class="stat-number">99.8%</div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+</script>
+{% endblock %}

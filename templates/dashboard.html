@@ -1,0 +1,40 @@
+"""
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Dispensadoras Inteligentes{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+    <div class="container">
+        <h1>📊 Dashboard de Power BI</h1>
+        <p>Análisis detallado de todas las dispensadoras inteligentes</p>
+    </div>
+</div>
+
+<div class="dashboard-container">
+    <div class="iframe-wrapper">
+        {% if powerbi_url and powerbi_url != 'TU_URL_DE_POWER_BI_AQUI' %}
+            <iframe 
+                src="{{ powerbi_url }}"
+                frameborder="0" 
+                allowFullScreen="true">
+            </iframe>
+        {% else %}
+            <div class="placeholder">
+                <div class="placeholder-content">
+                    <h2>⚠️ Dashboard no configurado</h2>
+                    <p>Para visualizar el dashboard de Power BI:</p>
+                    <ol>
+                        <li>Ve a Power BI Service y abre tu informe</li>
+                        <li>Selecciona "Archivo" → "Insertar informe" → "Sitio web o portal"</li>
+                        <li>Copia el enlace de inserción</li>
+                        <li>Pega el enlace en el archivo <code>app.py</code> en la variable <code>POWERBI_CONFIG['embed_url']</code></li>
+                        <li>Reinicia la aplicación</li>
+                    </ol>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+"""

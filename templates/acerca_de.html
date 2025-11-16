@@ -1,0 +1,364 @@
+{% extends "layout.html" %}
+
+{% block title %}Acerca de - Dispensadoras Inteligentes{% endblock %}
+
+{% block content %}
+
+<style>
+    .about-hero {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 4rem 2rem;
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .about-hero h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        font-weight: 700;
+    }
+
+    .about-hero p {
+        font-size: 1.1rem;
+        opacity: 0.95;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 2rem;
+        color: #1f2937;
+        border-bottom: 3px solid #667eea;
+        padding-bottom: 1rem;
+    }
+
+    .feature-box {
+        background: #f9fafb;
+        border-left: 4px solid #667eea;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        border-radius: 0.5rem;
+    }
+
+    .feature-box h5 {
+        color: #667eea;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+    }
+
+    .feature-box p {
+        color: #6b7280;
+        margin: 0;
+    }
+
+    .team-member {
+        text-align: center;
+        padding: 1.5rem;
+        background: white;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .team-member-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        color: #667eea;
+    }
+
+    .team-member h6 {
+        color: #1f2937;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+    }
+
+    .team-member p {
+        color: #9ca3af;
+        font-size: 0.9rem;
+    }
+
+    .tech-stack {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .tech-item {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .tech-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .tech-item-icon {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+        color: #667eea;
+    }
+
+    .tech-item-name {
+        font-weight: 600;
+        color: #1f2937;
+        font-size: 0.9rem;
+    }
+
+    .contact-info {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 2rem;
+        border-radius: 0.5rem;
+        text-align: center;
+    }
+
+    .contact-item {
+        margin-bottom: 1.5rem;
+    }
+
+    .contact-item i {
+        font-size: 1.5rem;
+        margin-right: 0.5rem;
+    }
+
+    .navbar {
+        background: white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+
+    .navbar-brand {
+        font-weight: 700;
+        color: #667eea !important;
+        font-size: 1.3rem;
+    }
+
+    .nav-link {
+        color: #6b7280 !important;
+        transition: color 0.3s ease;
+    }
+
+    .nav-link:hover {
+        color: #667eea !important;
+    }
+
+    .footer {
+        background: #1f2937;
+        color: white;
+        padding: 2rem;
+        text-align: center;
+        margin-top: 4rem;
+    }
+
+    .footer p {
+        margin: 0.5rem 0;
+    }
+</style>
+
+<!-- Navegación -->
+<nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/"><i class="fas fa-cube"></i> Dispensadoras Inteligentes</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/paneles">Paneles</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/acerca-de">Acerca de</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<div class="about-hero">
+    <div class="container">
+        <h1><i class="fas fa-star"></i> Acerca de Nosotros</h1>
+        <p>Soluciones inteligentes para dispensadoras con análisis de datos en tiempo real</p>
+    </div>
+</div>
+
+<!-- Contenido Principal -->
+<div class="container" style="padding: 2rem 0;">
+    <!-- Sección de Misión -->
+    <div class="row mb-5">
+        <div class="col-md-6">
+            <h2 class="section-title">Nuestra Misión</h2>
+            <p style="color: #6b7280; line-height: 1.8; font-size: 1rem;">
+                Proporcionar soluciones de software innovadoras que permitan a las empresas monitorear, 
+                analizar y optimizar sus operaciones de dispensadoras inteligentes. Creemos que el acceso 
+                a datos en tiempo real es fundamental para tomar decisiones empresariales más inteligentes.
+            </p>
+        </div>
+        <div class="col-md-6">
+            <h2 class="section-title">Nuestra Visión</h2>
+            <p style="color: #6b7280; line-height: 1.8; font-size: 1rem;">
+                Ser la plataforma líder en soluciones de inteligencia de negocios para dispensadoras 
+                automatizadas, permitiendo que las empresas de todos los tamaños accedan a análisis 
+                avanzados y reportes ejecutivos de fácil uso.
+            </p>
+        </div>
+    </div>
+
+    <!-- Sección de Características -->
+    <div class="mb-5">
+        <h2 class="section-title">¿Por Qué Elegirnos?</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="feature-box">
+                    <h5><i class="fas fa-tachometer-alt"></i> Monitoreo en Tiempo Real</h5>
+                    <p>Accede a datos actualizados instantáneamente sobre el estado y rendimiento de tus dispensadoras.</p>
+                </div>
+                <div class="feature-box">
+                    <h5><i class="fas fa-chart-line"></i> Análisis Avanzados</h5>
+                    <p>Reportes detallados y análisis predictivos para optimizar tus operaciones y aumentar ingresos.</p>
+                </div>
+                <div class="feature-box">
+                    <h5><i class="fas fa-lock"></i> Seguridad Garantizada</h5>
+                    <p>Infraestructura segura en la nube con encriptación de datos y cumplimiento normativo.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="feature-box">
+                    <h5><i class="fas fa-mobile-alt"></i> Acceso Multiplatforma</h5>
+                    <p>Accede desde cualquier dispositivo: computadora, tablet o teléfono móvil.</p>
+                </div>
+                <div class="feature-box">
+                    <h5><i class="fas fa-users"></i> Soporte Dedicado</h5>
+                    <p>Equipo de soporte técnico disponible para ayudarte en cada paso del proceso.</p>
+                </div>
+                <div class="feature-box">
+                    <h5><i class="fas fa-sync-alt"></i> Integración Fácil</h5>
+                    <p>Conecta fácilmente con tus bases de datos en la nube y sistemas existentes.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stack Tecnológico -->
+    <div class="mb-5">
+        <h2 class="section-title">Tecnología Utilizada</h2>
+        <div class="tech-stack">
+            <div class="tech-item">
+                <div class="tech-item-icon"><i class="fab fa-python"></i></div>
+                <div class="tech-item-name">Python & Flask</div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-item-icon"><i class="fas fa-database"></i></div>
+                <div class="tech-item-name">Base de Datos en Nube</div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-item-icon"><i class="fas fa-chart-bar"></i></div>
+                <div class="tech-item-name">Microsoft Power BI</div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-item-icon"><i class="fab fa-bootstrap"></i></div>
+                <div class="tech-item-name">Bootstrap 5</div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-item-icon"><i class="fab fa-js"></i></div>
+                <div class="tech-item-name">JavaScript Moderno</div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-item-icon"><i class="fas fa-cloud"></i></div>
+                <div class="tech-item-name">Infraestructura Cloud</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Equipo -->
+    <div class="mb-5">
+        <h2 class="section-title">Nuestro Equipo</h2>
+        <div class="row">
+            <div class="col-md-3 mb-3">
+                <div class="team-member">
+                    <div class="team-member-icon"><i class="fas fa-user-tie"></i></div>
+                    <h6>Desarrollo</h6>
+                    <p>Equipo de desarrolladores expertos en Flask y tecnologías web modernas</p>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="team-member">
+                    <div class="team-member-icon"><i class="fas fa-chart-pie"></i></div>
+                    <h6>Análisis de Datos</h6>
+                    <p>Especialistas en Power BI y análisis de datos empresariales</p>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="team-member">
+                    <div class="team-member-icon"><i class="fas fa-cogs"></i></div>
+                    <h6>Infraestructura</h6>
+                    <p>Expertos en sistemas en la nube y seguridad de datos</p>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="team-member">
+                    <div class="team-member-icon"><i class="fas fa-headset"></i></div>
+                    <h6>Soporte</h6>
+                    <p>Equipo dedicado a brindar asistencia técnica de calidad</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contacto -->
+    <div class="row mb-5">
+        <div class="col-md-8 offset-md-2">
+            <div class="contact-info">
+                <h2 style="margin-bottom: 2rem;"><i class="fas fa-envelope"></i> Ponte en Contacto</h2>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <strong>Email:</strong> info@dispensadorasinteligentes.com
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <strong>Teléfono:</strong> +57 (1) 2345-6789
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <strong>Ubicación:</strong> Bogotá, Colombia
+                </div>
+                <div style="margin-top: 2rem;">
+                    <a href="/paneles" class="btn btn-light" style="margin-right: 1rem;">
+                        <i class="fas fa-chart-bar"></i> Ver Paneles
+                    </a>
+                    <a href="/" class="btn btn-outline-light">
+                        <i class="fas fa-home"></i> Inicio
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    <div class="container">
+        <p><strong>Dispensadoras Inteligentes © 2024</strong></p>
+        <p>Soluciones de análisis de datos con Power BI</p>
+        <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">
+            Todos los derechos reservados | Política de Privacidad | Términos de Servicio
+        </p>
+    </div>
+</div>
+
+<!-- Scripts de Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+{% endblock %}

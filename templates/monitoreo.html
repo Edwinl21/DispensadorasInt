@@ -1,0 +1,163 @@
+{% extends "layout.html" %}
+
+{% block title %}Monitoreo - Dispensadoras Inteligentes{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="mb-4"><i class="fas fa-eye"></i> Monitoreo en Tiempo Real</h1>
+
+    <!-- Filtros -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label class="form-label">Filtrar por estado</label>
+                            <select class="form-select" id="filtroEstado">
+                                <option value="">Todos</option>
+                                <option value="activa">Activa</option>
+                                <option value="alerta">Alerta</option>
+                                <option value="critico">Crítico</option>
+                                <option value="inactiva">Inactiva</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Filtrar por tipo</label>
+                            <select class="form-select" id="filtroTipo">
+                                <option value="">Todos</option>
+                                <option value="agua">Agua</option>
+                                <option value="café">Café</option>
+                                <option value="snacks">Snacks</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 d-flex align-items-end">
+                            <button class="btn btn-primary w-100" onclick="filtrarDispensadoras()">
+                                <i class="fas fa-filter"></i> Aplicar Filtros
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Grid de dispensadoras -->
+    <div class="dispensadora-grid" id="dispensadoras-grid">
+        <div class="text-center w-100">
+            <p class="text-muted"><i class="fas fa-spinner fa-spin"></i> Cargando dispensadoras...</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+let todasDispensadoras = [];
+
+document.addEventListener('DOMContentLoaded', function() {
+    cargarDispensadorasMonitoreo();
+    setInterval(cargarDispensadorasMonitoreo, 10000); // Actualizar cada 10 segundos
+});
+
+function cargarDispensadorasMonitoreo() {
+    fetch('/api/dispensadoras')
+        .then(response => response.json())
+        .then(data => {
+            todasDispensadoras = data;
+            mostrarDispensadoras(data);
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+function mostrarDispensadoras(dispensadoras) {
+    const grid = document.getElementById('dispensadoras-grid');
+    grid.innerHTML = '';
+
+    if (dispensadoras.length === 0) {
+        grid.innerHTML = '<p class="text-muted text-center w-100">No se encontraron dispensadoras</p>';
+        return;
+    }
+
+    dispensadoras.forEach(d => {
+        const colorEstado = obtenerColorEstado(d.estado);
+        const animacion = d.nivel_llenado < 20 ? 'pulse' : '';
+
+        const card = document.createElement('div');
+        card.className = `dispensadora-card ${animacion}`;
+        card.innerHTML = `
+            <div class="dispensadora-header">
+                <h5 class="mb-2">${d.nombre}</h5>
+                <div class="badge-status badge-${d.estado}">${d.estado}</div>
+            </div>
+            <div class="dispensadora-info">
+                <div class="dispensadora-row">
+                    <span class="dispensadora-label"><i class="fas fa-map-marker-alt"></i> Ubicación</span>
+                    <span class="dispensadora-value">${d.ubicacion}</span>
+                </div>
+                <div class="dispensadora-row">
+                    <span class="dispensadora-label"><i class="fas fa-barcode"></i> Serial</span>
+                    <span class="dispensadora-value">${d.serial}</span>
+                </div>
+                <div class="dispensadora-row">
+                    <span class="dispensadora-label"><i class="fas fa-tag"></i> Tipo</span>
+                    <span class="dispensadora-value text-capitalize">${d.tipo}</span>
+                </div>
+                <div class="dispensadora-row">
+                    <span class="dispensadora-label"><i class="fas fa-fill"></i> Nivel</span>
+                    <span class="dispensadora-value">${d.nivel_llenado.toFixed(1)}%</span>
+                </div>
+                <div class="mb-3">
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: ${d.nivel_llenado}%; background-color: ${colorEstado};" 
+                             aria-valuenow="${d.nivel_llenado}" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+                <div class="dispensadora-row">
+                    <span class="dispensadora-label"><i class="fas fa-thermometer-half"></i> Temp</span>
+                    <span class="dispensadora-value">${d.temperatura}°C</span>
+                </div>
+                <div class="dispensadora-row">
+                    <span class="dispensadora-label"><i class="fas fa-water"></i> Humedad</span>
+                    <span class="dispensadora-value">${d.humedad}%</span>
+                </div>
+                <div class="mt-3">
+                    <button class="btn btn-sm btn-primary w-100" onclick="verDetallesMonitoreo(${d.id})">
+                        <i class="fas fa-info-circle"></i> Ver Detalles
+                    </button>
+                </div>
+            </div>
+        `;
+        grid.appendChild(card);
+    });
+}
+
+function obtenerColorEstado(estado) {
+    const colores = {
+        'activa': '#10b981',
+        'inactiva': '#6b7280',
+        'alerta': '#f59e0b',
+        'critico': '#ef4444'
+    };
+    return colores[estado] || '#2563eb';
+}
+
+function filtrarDispensadoras() {
+    const estado = document.getElementById('filtroEstado').value;
+    const tipo = document.getElementById('filtroTipo').value;
+
+    const filtradas = todasDispensadoras.filter(d => {
+        const cumpleEstado = !estado || d.estado === estado;
+        const cumpleTipo = !tipo || d.tipo === tipo;
+        return cumpleEstado && cumpleTipo;
+    });
+
+    mostrarDispensadoras(filtradas);
+}
+
+function verDetallesMonitoreo(id) {
+    // Aquí puedes abrir un modal con más detalles
+    alert('Ver detalles de dispensadora: ' + id);
+}
+</script>
+{% endblock %}

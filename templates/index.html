@@ -1,0 +1,220 @@
+{% extends "layout.html" %}
+
+{% block title %}Inicio - Dispensadoras Inteligentes{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Encabezado -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="display-5"><i class="fas fa-tachometer-alt"></i> Panel de Control</h1>
+            <p class="text-muted">Bienvenido al sistema de gestión de dispensadoras inteligentes</p>
+        </div>
+    </div>
+
+    <!-- Estadísticas principales -->
+    <div class="row mb-4" id="stats-row">
+        <div class="col-md-3 mb-3">
+            <div class="stat-card">
+                <div class="stat-icon">📦</div>
+                <div class="stat-label">Dispensadoras Total</div>
+                <div class="stat-number" id="total-dispensadoras">0</div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-label">Dispensadoras Activas</div>
+                <div class="stat-number" id="dispensadoras-activas">0</div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="stat-card">
+                <div class="stat-icon">⚠️</div>
+                <div class="stat-label">Alertas Pendientes</div>
+                <div class="stat-number" id="alertas-pendientes">0</div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="stat-card">
+                <div class="stat-icon">🌡️</div>
+                <div class="stat-label">Temp. Promedio</div>
+                <div class="stat-number" id="temperatura-promedio">0°C</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tablas y datos -->
+    <div class="row">
+        <!-- Dispensadoras -->
+        <div class="col-lg-8 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-list"></i> Dispensadoras Disponibles
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Ubicación</th>
+                                    <th>Nivel</th>
+                                    <th>Temperatura</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dispensadoras-tabla">
+                                <tr>
+                                    <td colspan="6" class="text-center text-muted">Cargando datos...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alertas recientes -->
+        <div class="col-lg-4 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-bell"></i> Alertas Recientes
+                </div>
+                <div class="card-body">
+                    <div id="alertas-lista">
+                        <p class="text-muted text-center">Cargando alertas...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Información adicional -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-info-circle"></i> Información del Sistema
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Nivel Promedio de Llenado</h6>
+                            <div class="progress mb-3">
+                                <div class="progress-bar progress-bar-success" id="nivel-promedio-bar" role="progressbar" style="width: 0%"></div>
+                            </div>
+                            <small class="text-muted" id="nivel-promedio-text">0%</small>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Estado del Sistema</h6>
+                            <div class="alert alert-info mb-0" id="sistema-status">
+                                <i class="fas fa-spinner fa-spin"></i> Verificando estado...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    cargarEstadisticas();
+    cargarDispensadoras();
+    cargarAlertas();
+    
+    // Actualizar cada 30 segundos
+    setInterval(cargarEstadisticas, 30000);
+});
+
+function cargarEstadisticas() {
+    fetch('/api/estadisticas')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('total-dispensadoras').textContent = data.total_dispensadoras;
+            document.getElementById('dispensadoras-activas').textContent = data.dispensadoras_activas;
+            document.getElementById('alertas-pendientes').textContent = data.alertas_pendientes;
+            document.getElementById('temperatura-promedio').textContent = data.temperatura_promedio + '°C';
+            document.getElementById('nivel-promedio-bar').style.width = data.nivel_promedio + '%';
+            document.getElementById('nivel-promedio-text').textContent = data.nivel_promedio.toFixed(1) + '%';
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+function cargarDispensadoras() {
+    fetch('/api/dispensadoras')
+        .then(response => response.json())
+        .then(data => {
+            const tabla = document.getElementById('dispensadoras-tabla');
+            tabla.innerHTML = '';
+            
+            if (data.length === 0) {
+                tabla.innerHTML = '<tr><td colspan="6" class="text-center text-muted">No hay dispensadoras disponibles</td></tr>';
+                return;
+            }
+            
+            data.forEach(d => {
+                const fila = document.createElement('tr');
+                const estadoBadge = `<span class="badge-status badge-${d.estado}">${d.estado}</span>`;
+                
+                fila.innerHTML = `
+                    <td><strong>${d.nombre}</strong></td>
+                    <td>${d.ubicacion}</td>
+                    <td>
+                        <div class="progress" style="height: 20px;">
+                            <div class="progress-bar" role="progressbar" style="width: ${d.nivel_llenado}%">${d.nivel_llenado.toFixed(1)}%</div>
+                        </div>
+                    </td>
+                    <td>${d.temperatura}°C</td>
+                    <td>${estadoBadge}</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" onclick="verDetalles(${d.id})">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </td>
+                `;
+                tabla.appendChild(fila);
+            });
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+function cargarAlertas() {
+    fetch('/api/alertas')
+        .then(response => response.json())
+        .then(data => {
+            const lista = document.getElementById('alertas-lista');
+            lista.innerHTML = '';
+            
+            if (data.length === 0) {
+                lista.innerHTML = '<p class="text-success text-center">✅ No hay alertas pendientes</p>';
+                return;
+            }
+            
+            data.slice(0, 5).forEach(a => {
+                const tipoClass = `alert-${a.severidad === 'critica' ? 'danger' : a.severidad === 'media' ? 'warning' : 'info'}`;
+                const alertDiv = document.createElement('div');
+                alertDiv.className = `alert ${tipoClass} mb-2`;
+                alertDiv.innerHTML = `
+                    <strong>${a.tipo}</strong>
+                    <p class="mb-0">${a.descripcion}</p>
+                    <small>Severidad: ${a.severidad}</small>
+                `;
+                lista.appendChild(alertDiv);
+            });
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+function verDetalles(id) {
+    // Aquí puedes añadir navegación a detalles o abrir un modal
+    console.log('Ver detalles de dispensadora:', id);
+}
+</script>
+{% endblock %}

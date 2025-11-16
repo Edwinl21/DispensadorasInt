@@ -1,0 +1,29 @@
+{% extends "panel_base.html" %}
+
+{% block title %}Panel de Operaciones{% endblock %}
+
+{% block panel_title %}
+<i class="fas fa-box"></i> Panel de Temporal
+{% endblock %}
+
+{% block content %}
+
+<div class="info-box">
+    <div class="info-box-title"><i class="fas fa-lightbulb"></i> Información</div>
+    <div class="info-box-text">
+        Este panel podemos encontra los datos de la energia consumidad, y algunos datos de alimentos de los dispensadores.
+    </div>
+</div>
+
+<div class="powerbi-container">
+    <!-- Embebido Power BI: Panel 3 (Temporal) -->
+    <div class="powerbi-embed">
+        <iframe title="Operaciones - Power BI"
+                width="100%" height="600"
+                src="https://app.powerbi.com/view?r=eyJrIjoiNTJhZGRiZjYtZjNjOS00ZTYzLWFmYzYtMzhkMWM3OTgxN2Q2IiwidCI6IjA3ZGE2N2EwLTFmNDMtNGU4Yy05NzdmLTVmODhiNjQ3MGVlNiIsImMiOjR9&pageName=42e18ade6c2756dcb47a"
+                frameborder="0" allowFullScreen="true">
+        </iframe>
+    </div>
+</div>
+
+{% endblock %}

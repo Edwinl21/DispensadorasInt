@@ -1,0 +1,100 @@
+{% extends "panel_base.html" %}
+
+{% block title %}Panel de Reportes{% endblock %}
+
+{% block panel_title %}
+<i class="fas fa-box"></i> Panel de Reportes
+{% endblock %}
+
+{% block content %}
+
+<div class="info-box">
+    <div class="info-box-title"><i class="fas fa-lightbulb"></i> Información</div>
+    <div class="info-box-text">
+        Este panel consolidado muestra reportes ejecutivos, análisis comparativos, KPIs principales y desempeño general del negocio.
+    </div>
+</div>
+
+<div class="powerbi-container">
+    <div class="powerbi-placeholder">
+        <div class="powerbi-placeholder-icon">
+            <i class="fas fa-chart-pie"></i>
+        </div>
+        <div class="powerbi-placeholder-title">Panel de Reportes Ejecutivos</div>
+        <div class="powerbi-placeholder-text">
+            <p>Aquí se mostrará tu reporte de Power BI consolidado</p>
+            <p style="margin-top: 1rem; font-size: 0.85rem;">
+                Para embeber tu reporte, incluye el iframe de Power BI aquí
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Resumen de KPIs -->
+<div class="row mt-4">
+    <div class="col-md-6 mb-3">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <i class="fas fa-target"></i> KPIs Principales
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                        <strong>Objetivo Alcanzado</strong>
+                        <span>88%</span>
+                    </div>
+                    <div style="height: 8px; background: #e5e7eb; border-radius: 4px; overflow: hidden;">
+                        <div style="height: 100%; width: 88%; background: #10b981;"></div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                        <strong>Rentabilidad</strong>
+                        <span>72%</span>
+                    </div>
+                    <div style="height: 8px; background: #e5e7eb; border-radius: 4px; overflow: hidden;">
+                        <div style="height: 100%; width: 72%; background: #f59e0b;"></div>
+                    </div>
+                </div>
+                <div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                        <strong>Satisfacción Cliente</strong>
+                        <span>94%</span>
+                    </div>
+                    <div style="height: 8px; background: #e5e7eb; border-radius: 4px; overflow: hidden;">
+                        <div style="height: 100%; width: 94%; background: #06b6d4;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <i class="fas fa-chart-line"></i> Tendencias
+            </div>
+            <div class="card-body">
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <li class="mb-2">
+                        <strong>Crecimiento Mensual</strong>
+                        <span class="text-success" style="float: right;">+12.5% ↑</span>
+                    </li>
+                    <li class="mb-2">
+                        <strong>Variación YoY</strong>
+                        <span class="text-success" style="float: right;">+45.3% ↑</span>
+                    </li>
+                    <li class="mb-2">
+                        <strong>Proyección Trimestral</strong>
+                        <span class="text-warning" style="float: right;">+8.2% ↑</span>
+                    </li>
+                    <li>
+                        <strong>Riesgo de Mercado</strong>
+                        <span class="text-danger" style="float: right;">-3.1% ↓</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

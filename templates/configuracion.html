@@ -1,0 +1,108 @@
+{% extends "layout.html" %}
+
+{% block title %}Configuración - Dispensadoras Inteligentes{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="mb-4"><i class="fas fa-cog"></i> Configuración del Sistema</h1>
+
+    <div class="row">
+        <!-- Configuración de Sistema -->
+        <div class="col-lg-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-sliders-h"></i> Configuración General
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Nombre del Sistema</label>
+                            <input type="text" class="form-control" value="Dispensadoras Inteligentes" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Versión</label>
+                            <input type="text" class="form-control" value="1.0.0" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Intervalo de Actualización (segundos)</label>
+                            <input type="number" class="form-control" value="30" min="10" max="300">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Configuración de Power BI -->
+        <div class="col-lg-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-chart-line"></i> Configuración Power BI
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Client ID</label>
+                            <input type="password" class="form-control" placeholder="Ingresa tu Client ID">
+                            <small class="text-muted">Los datos sensibles no se muestran por seguridad</small>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Workspace ID</label>
+                            <input type="text" class="form-control" placeholder="Ingresa tu Workspace ID">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Report ID</label>
+                            <input type="text" class="form-control" placeholder="Ingresa tu Report ID">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Guardar Configuración Power BI</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Configuración de Notificaciones -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-bell"></i> Notificaciones y Alertas
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="notifBajaNivel" checked>
+                                <label class="form-check-label" for="notifBajaNivel">
+                                    Notificar cuando nivel sea bajo
+                                </label>
+                            </div>
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="notifTemperatura" checked>
+                                <label class="form-check-label" for="notifTemperatura">
+                                    Notificar por temperatura anómala
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="notifMantenimiento" checked>
+                                <label class="form-check-label" for="notifMantenimiento">
+                                    Notificar mantenimiento pendiente
+                                </label>
+                            </div>
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="notifFallo" checked>
+                                <label class="form-check-label" for="notifFallo">
+                                    Notificar fallos de sensor
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary">Guardar Preferencias</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

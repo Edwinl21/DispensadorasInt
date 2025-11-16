@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paneles - Sistema de Inteligencia de Negocios</title>
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --success-color: #10b981;
+            --danger-color: #ef4444;
+            --warning-color: #f59e0b;
+            --info-color: #06b6d4;
+            --dark-color: #1f2937;
+            --light-color: #f3f4f6;
+            --border-color: #e5e7eb;
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9fafb;
+            color: var(--dark-color);
+        }
+
+        /* Navbar */
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: white !important;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.8) !important;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: white !important;
+        }
+
+        /* Main content */
+        .main-content {
+            min-height: calc(100vh - 56px);
+            padding: 2rem 0;
+        }
+
+        /* Tarjetas de paneles */
+        .paneles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        .panel-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .panel-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-5px);
+        }
+
+        .panel-card-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .panel-icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .panel-card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .panel-card-body {
+            padding: 1.5rem;
+        }
+
+        .panel-description {
+            color: #6b7280;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .panel-footer {
+            display: flex;
+            align-items: center;
+            color: var(--primary-color);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .panel-card:hover .panel-footer {
+            transform: translateX(5px);
+        }
+
+        /* Container */
+        .container-paneles {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+        }
+
+        .section-subtitle {
+            color: #6b7280;
+            margin-bottom: 2rem;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* Info section */
+        .info-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 2rem;
+            margin-bottom: 2rem;
+            border-radius: 10px;
+        }
+
+        .info-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .info-description {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-volver {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-volver:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .paneles-grid {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .info-section {
+                padding: 2rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-chart-line"></i> Paneles Inteligentes
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" title="Menú">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/acerca-de">Acerca de</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main content -->
+    <div class="main-content">
+        <div class="container-paneles">
+            <!-- Info section -->
+            <div class="info-section">
+                <h1 class="info-title"><i class="fas fa-dashboard"></i> Nuestros Paneles</h1>
+                <p class="info-description">
+                    Accede a los paneles interactivos de Power BI para visualizar y analizar datos en tiempo real
+                </p>
+                <a href="/" class="btn-volver"><i class="fas fa-arrow-left"></i> Volver al Inicio</a>
+            </div>
+
+            <!-- Paneles grid -->
+            <div class="paneles-grid">
+                <!-- Panel 1 -->
+                <a href="/panel/Resumen" class="panel-card">
+                    <div class="panel-card-header">
+                        <div class="panel-icon">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <h2 class="panel-card-title">Resumen</h2>
+                    </div>
+                    <div class="panel-card-body">
+                        <p class="panel-description">
+                            Analisis detallado de nuestras principales metricas.
+                        </p>
+                        <div class="panel-footer">
+                            Ver panel <i class="fas fa-arrow-right ms-2"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Panel 2 -->
+                <a href="/panel/Analisis" class="panel-card">
+                    <div class="panel-card-header">
+                        <div class="panel-icon">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <h2 class="panel-card-title">Analisis</h2>
+                    </div>
+                    <div class="panel-card-body">
+                        <p class="panel-description">
+                            Monitoreo de los datos registrados por los sensores de las dispensadoras.
+                        </p>
+                        <div class="panel-footer">
+                            Ver panel <i class="fas fa-arrow-right ms-2"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Panel 3 -->
+                <a href="/panel/Temporal" class="panel-card">
+                    <div class="panel-card-header">
+                        <div class="panel-icon">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <h2 class="panel-card-title">Temporal</h2>
+                    </div>
+                    <div class="panel-card-body">
+                        <p class="panel-description">
+                            Monitoreo de procesos operacionales, eficiencia, métricas clave y optimización
+                        </p>
+                        <div class="panel-footer">
+                            Ver panel <i class="fas fa-arrow-right ms-2"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 Sistema de Paneles Inteligentes. Todos los derechos reservados.</p>
+        <small>Powered by Power BI & Flask</small>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

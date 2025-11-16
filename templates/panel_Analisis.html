@@ -1,0 +1,71 @@
+{% extends "panel_base.html" %}
+
+{% block title %}Panel de Inventario{% endblock %}
+
+{% block panel_title %}
+<i class="fas fa-box"></i> Panel de Analisis
+{% endblock %}
+
+{% block content %}
+
+<div class="info-box">
+	<div class="info-box-title"><i class="fas fa-lightbulb"></i> Información</div>
+	<div class="info-box-text">
+		Este panel proporciona los registros de tomados por nuestros sensores instalados en las dispensadoras inteligentes.
+	</div>
+</div>
+
+<div class="powerbi-container">
+	<!-- Embebido Power BI: Panel 2 (Análisis) -->
+	<div class="powerbi-embed">
+		<iframe title="Inventario - Power BI"
+				width="100%" height="600"
+				src="https://app.powerbi.com/view?r=eyJrIjoiNTJhZGRiZjYtZjNjOS00ZTYzLWFmYzYtMzhkMWM3OTgxN2Q2IiwidCI6IjA3ZGE2N2EwLTFmNDMtNGU4Yy05NzdmLTVmODhiNjQ3MGVlNiIsImMiOjR9&pageName=4784fe0aa6c6bd239457"
+				frameborder="0" allowFullScreen="true">
+		</iframe>
+	</div>
+</div>
+
+<!-- Tarjetas informativas -->
+
+<!--<div class="row mt-4">
+	<div class="col-md-3 mb-3">
+		<div class="card">
+			<div class="card-body text-center">
+				<div style="font-size: 2rem; margin-bottom: 0.5rem;">📦</div>
+				<h6 class="card-title">Stock Total</h6>
+				<p class="text-muted">Configurable en Power BI</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3 mb-3">
+		<div class="card">
+			<div class="card-body text-center">
+				<div style="font-size: 2rem; margin-bottom: 0.5rem;">⚠️</div>
+				<h6 class="card-title">Bajo Stock</h6>
+				<p class="text-muted">Configurable en Power BI</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3 mb-3">
+		<div class="card">
+			<div class="card-body text-center">
+				<div style="font-size: 2rem; margin-bottom: 0.5rem;">📊</div>
+				<h6 class="card-title">Movimientos</h6>
+				<p class="text-muted">Configurable en Power BI</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3 mb-3">
+		<div class="card">
+			<div class="card-body text-center">
+				<div style="font-size: 2rem; margin-bottom: 0.5rem;">📈</div>
+				<h6 class="card-title">Proyecciones</h6>
+				<p class="text-muted">Configurable en Power BI</p>
+			</div>
+		</div>
+	</div>
+</div>-->
+
+{% endblock %}
+
